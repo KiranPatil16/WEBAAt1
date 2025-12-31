@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fresh Fruit Shop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fdfdfd;
+}
+
+header {
+    background: linear-gradient(to right, #ff6f61, #ff9966);
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+section {
+    padding: 30px;
+    text-align: center;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+button {
+    background: #2a9d8f;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #21867a;
+}
+
+.cart {
+    background: #f4f4f4;
+}
+
+footer {
+    background: #264653;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🍎 Fresh Fruit Shop</h1>
+    <p>Healthy • Fresh • Organic</p>
+    <nav>
+        <a href="#products">Products</a>
+        <a href="#cart">Cart</a>
+        <a href="#contact">Contact</a>
+    </nav>
+</header>
+
+<section id="products">
+<h2>Our Fruits</h2>
+
+<div class="products">
+
+<!-- Apple -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&fit=crop&w=800&q=80">
+<h3>Apple (1kg)</h3>
+<p>₹120</p>
+<button onclick="addToCart('Apple',120)">Add to Cart</button>
+</div>
+
+<!-- Grapes -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1537640538966-79f369143f8f?auto=format&fit=crop&w=800&q=80">
+<h3>Grapes (1kg)</h3>
+<p>₹110</p>
+<button onclick="addToCart('Grapes',110)">Add to Cart</button>
+</div>
+
+<!-- Watermelon -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1567306301408-9b74779a11af?auto=format&fit=crop&w=800&q=80">
+<h3>Watermelon (1pc)</h3>
+<p>₹70</p>
+<button onclick="addToCart('Watermelon',70)">Add to Cart</button>
+</div>
+
+<!-- Pineapple -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&w=800&q=80">
+<h3>Pineapple (1pc)</h3>
+<p>₹80</p>
+<button onclick="addToCart('Pineapple',80)">Add to Cart</button>
+</div>
+
+<!-- Strawberry -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=800&q=80">
+<h3>Strawberry (500g)</h3>
+<p>₹150</p>
+<button onclick="addToCart('Strawberry',150)">Add to Cart</button>
+</div>
+
+<!-- Pomegranate -->
+<div class="card">
+<img src="https://images.unsplash.com/photo-1570197788417-0e82375c9371?auto=format&fit=crop&w=800&q=80">
+<h3>Pomegranate (1kg)</h3>
+<p>₹140</p>
+<button onclick="addToCart('Pomegranate',140)">Add to Cart</button>
+</div>
+
+</div>
+</section>
+
+<section id="cart" class="cart">
+<h2>🛒 Your Cart</h2>
+<div id="cartItems"></div>
+<h3>Total: ₹<span id="total">0</span></h3>
+<button onclick="checkout()">Checkout</button>
+</section>
+
+<section id="contact">
+<h2>Contact Us</h2>
+<p>Email: fruitshop@gmail.com</p>
+<p>Mobile: +91 90000 00000</p>
+</section>
+
+<footer>
+© 2025 Fresh Fruit Shop | All Rights Reserved
+</footer>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let total = JSON.parse(localStorage.getItem("total")) || 0;
+
+updateCart();
+
+function addToCart(item, price) {
+    cart.push({item, price});
+    total += price;
+    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("total", JSON.stringify(total));
+    updateCart();
+}
+
+function updateCart() {
+    const cartDiv = document.getElementById("cartItems");
+    const totalSpan = document.getElementById("total");
+    cartDiv.innerHTML = "";
+    cart.forEach(p => {
+        cartDiv.innerHTML += `<p>${p.item} - ₹${p.price}</p>`;
+    });
+    totalSpan.innerText = total;
+}
+
+function checkout() {
+    if(cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    }
+    alert("Order placed successfully! Total ₹" + total);
+    cart = [];
+    total = 0;
+    localStorage.clear();
+    updateCart();
+}
+</script>
+
+</body>
+</html>
